@@ -2,8 +2,8 @@ import { HttpException } from '@nestjs/common'
 import * as bcrypt from 'bcrypt'
 import moment from 'moment'
 import { FindOptionsWhere, ObjectLiteral, SelectQueryBuilder } from 'typeorm'
-import { ExceptionReasonDTO } from '../classes/dtos/exception-reason.dto'
 import { IgnoreObjectKeys, whereConditionEnum } from './enums.helper'
+import { ExceptionReasonDTO } from '../classes/dtos/exception-reason.dto'
 
 export function parseBodyObject(element: any) {
   if (typeof element === 'object' && element !== null && element !== undefined) {

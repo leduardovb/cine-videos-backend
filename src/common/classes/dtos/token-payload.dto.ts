@@ -1,19 +1,17 @@
-import { UserTokenEntity } from 'src/common/entities/user-token.entity'
+import { UserEntity } from 'src/common/entities/user.entity'
 
 export class TokenPayloadDTO {
   id: number
-  refreshToken: string
-  accessToken: string
+  email: string
 
-  constructor(userToken: UserTokenEntity) {
-    this.id = userToken.userId
-    this.accessToken = userToken.accessToken
-    this.refreshToken = userToken.refreshToken
+  constructor(user: UserEntity) {
+    this.id = user.id
+    this.email = user.email
   }
 
   static matchesObject(data: object): boolean {
     if (!data) return false
-    const payloadRequiredKeys = ['id', 'refreshToken', 'accessToken']
+    const payloadRequiredKeys = ['id', 'email']
     const keys = Object.keys(data)
 
     if (payloadRequiredKeys.some((key) => !keys.includes(key))) return false

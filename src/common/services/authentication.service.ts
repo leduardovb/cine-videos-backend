@@ -21,14 +21,14 @@ export class AuthenticationService {
     if (!bearerTokenProcessor.isBearerToken()) throw ExceptionDTO.withError('Guard', new ExceptionReasonDTO('JWT', 'JWT decode error', 'Formato do JWT é inválido'), HttpStatus.UNAUTHORIZED)
     if (!bearerTokenProcessor.isSignatureValid()) throw ExceptionDTO.withError('Guard', new ExceptionReasonDTO('JWT', 'Signature is invalid or token already expired', 'Assinatura inválida ou token já expirado'), HttpStatus.UNAUTHORIZED)
 
-    const userTokenEntity = await this.userTokenRepository.findOneBy({
-      userId: bearerTokenProcessor.payload?.id,
+    const userTokenEntity = await this.userTokenRepository.findOne({
+      where: { accessToken: token },
+      relations: ['user'],
     })
     if (!userTokenEntity) throw UnauthorizedWarning
-    if (userTokenEntity.accessToken !== bearerTokenProcessor.payload.accessToken) throw new ExceptionReasonDTO('JWT', `Invalid validation token. New login required.`, 'Algo deu errado, informe o suporte', undefined, HttpStatus.UNAUTHORIZED)
-    if (userTokenEntity.refreshToken !== bearerTokenProcessor.payload.refreshToken) throw new ExceptionReasonDTO('JWT', `Invalid session token. Try refresh token.`, undefined, undefined, HttpStatus.UNAUTHORIZED)
+    if (userTokenEntity.userId !== bearerTokenProcessor.payload.id || userTokenEntity.user.email !== bearerTokenProcessor.payload.email) throw new ExceptionReasonDTO('JWT', `Invalid validation token. New login required.`, 'Algo deu errado, informe o suporte', undefined, HttpStatus.UNAUTHORIZED)
 
     Logger.info(`Request by user ${bearerTokenProcessor?.payload?.id}`)
-    return new TokenPayloadDTO(userTokenEntity)
+    return new TokenPayloadDTO(userTokenEntity.user)
   }
 }

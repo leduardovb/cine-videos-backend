@@ -10,8 +10,9 @@ import { UserEntity } from '../entities/user.entity'
 import { UserTokenEntity } from '../entities/user-token.entity'
 import { UserTokenRepository } from '../repositories/user-token.repository'
 import { ExceptionDTOFilter, GenericExceptionFilter } from '../filters'
+import { ProfileEntity } from '../entities/profile.entity'
 
-const entities = [UserEntity, UserTokenEntity]
+const entities = [UserEntity, UserTokenEntity, ProfileEntity]
 const repositories = [UserTokenRepository]
 const services = [AuthenticationService]
 @Global()
