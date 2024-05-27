@@ -20,6 +20,20 @@ export class ProfileEntity extends SoftDeletableResourceEntity {
   toModel<T extends Partial<BaseEntity>>(...args: any[]): T {
     return Object.assign({} as T, {
       ...this,
+      createdAt: undefined,
+      updatedAt: undefined,
+      deletedAt: undefined,
+    })
+  }
+
+  toModelWithoutRelations<T extends Partial<BaseEntity>>(...args: any[]): T {
+    return Object.assign({} as T, {
+      ...this,
+      createdAt: undefined,
+      updatedAt: undefined,
+      deletedAt: undefined,
+      user: undefined,
+      userId: undefined,
     })
   }
 }
